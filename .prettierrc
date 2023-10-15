@@ -1,0 +1,10 @@
+{
+	"singleQuote": true,
+	"trailingComma": "none",
+	"printWidth": 140,
+	"eslintIntegration": true,
+	"useTabs": true,
+	"space": false,
+	"endOfLine": "auto",
+	"tabWidth": 2
+}
