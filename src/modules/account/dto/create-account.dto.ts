@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Currency } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString, Length, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsPositive, IsString, Length, MaxLength, MinLength } from 'class-validator';
 
 export class CreateAccountDto {
 	@IsString()
@@ -20,4 +20,10 @@ export class CreateAccountDto {
 	@IsNotEmpty()
 	@ApiProperty()
 	color: string;
+
+	@IsNumber()
+	@IsPositive()
+	@IsNotEmpty()
+	@ApiProperty()
+	balance: number;
 }

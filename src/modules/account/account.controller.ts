@@ -6,6 +6,7 @@ import { UserId } from 'src/core/decorators/auth-user.decorator';
 import { AccountEnt } from './entities/account.entity';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiResponse } from '../../core/models/api-response.dto';
 
 @Controller('account')
 @ApiTags('Account')
@@ -15,8 +16,7 @@ export class AccountController {
 	@Post()
 	@UseGuards(JwtAuthGuard)
 	@ApiBearerAuth()
-	@ApiCreatedResponse({ type: AccountEnt })
-	create(@Body() createAccountDto: CreateAccountDto, @UserId() userId: number): Promise<AccountEnt> {
+	create(@Body() createAccountDto: CreateAccountDto, @UserId() userId: number): Promise<ApiResponse> {
 		return this.accountService.create(createAccountDto, userId);
 	}
 

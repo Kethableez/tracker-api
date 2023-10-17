@@ -22,7 +22,6 @@ async function bootstrap(): Promise<void> {
 	app.enableCors({
 		origin: ['http://localhost:4200'],
 		credentials: true,
-		maxAge: 600
 	});
 
 	const document = SwaggerModule.createDocument(app, config);

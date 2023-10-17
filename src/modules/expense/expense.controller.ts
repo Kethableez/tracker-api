@@ -21,6 +21,7 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { ExpenseEnt } from './entities/expense.entity';
 import { ExpenseService } from './expense.service';
 import { Page } from 'src/core/models/page.model';
+import { ApiResponse } from '../../core/models/api-response.dto';
 
 @Controller('expense')
 @ApiTags('Expense')
@@ -32,15 +33,13 @@ export class ExpenseController {
 	@ApiBearerAuth()
 	@UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 	findByQuery(@Query() expenseQuery: ExpenseFilterQueryDto, @UserId() userId: number): Promise<Page<ExpenseEnt>> {
-		console.log(expenseQuery);
 		return this.expenseService.findByQuery(userId, expenseQuery);
 	}
 
 	@Post()
 	@UseGuards(JwtAuthGuard)
 	@ApiBearerAuth()
-	@ApiCreatedResponse({ type: ExpenseEnt })
-	create(@Body() createExpenseDto: CreateExpenseDto, @UserId() userId: number): Promise<ExpenseEnt> {
+	create(@Body() createExpenseDto: CreateExpenseDto, @UserId() userId: number): Promise<ApiResponse> {
 		return this.expenseService.create(createExpenseDto, userId);
 	}
 

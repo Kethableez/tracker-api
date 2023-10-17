@@ -4,21 +4,27 @@ import * as bc from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
-	await prisma.user.createMany({
-		data: [
-			{
-				username: 'user01',
-				password: await bc.hash('123456', 10)
-			},
-			{
-				username: 'user02',
-				password: await bc.hash('123456', 10)
-			}
-		]
-	});
+	// await prisma.user.createMany({
+	// 	data: [
+	// 		{
+	// 			username: 'user01',
+	// 			password: await bc.hash('123456', 10)
+	// 		},
+	// 		{
+	// 			username: 'user02',
+	// 			password: await bc.hash('123456', 10)
+	// 		}
+	// 	]
+	// });
 
 	await prisma.category.createMany({
 		data: [
+			{
+				name: 'REBALANCE',
+				color: '',
+				type: 'REBALANCE',
+				forAll: false
+			},
 			{
 				name: 'category.food',
 				color: '#e6e6e6',

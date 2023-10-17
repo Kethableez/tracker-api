@@ -6,13 +6,15 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { ExpenseEnt } from './entities/expense.entity';
 import { Page } from 'src/core/models/page.model';
 import { ExpenseQueryBuilder } from './builders/expense.builder';
+import { ApiResponse } from '../../core/models/api-response.dto';
 
 @Injectable()
 export class ExpenseService {
 	constructor(private prisma: PrismaService) {}
 
-	create(createExpenseDto: CreateExpenseDto, userId: number): Promise<ExpenseEnt> {
-		return this.prisma.expense.create({ data: { ...createExpenseDto, userId } });
+	async create(createExpenseDto: CreateExpenseDto, userId: number): Promise<ApiResponse> {
+		await this.prisma.expense.create({ data: { ...createExpenseDto, userId } });
+		return { header: 'Expense was added' };
 	}
 
 	findAll(userId: number): Promise<ExpenseEnt[]> {

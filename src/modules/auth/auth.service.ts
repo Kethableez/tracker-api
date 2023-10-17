@@ -31,12 +31,12 @@ export class AuthService {
 	async login(res: Response, username: string, password: string): Promise<AuthEnt> {
 		const user: UserEnt = await this.prisma.user.findUnique({ where: { username: username } });
 		if (!user) {
-			throw new NotFoundException('User not found');
+			throw new NotFoundException({ header: 'User not found'});
 		}
 
 		const isPasswordValid = await bc.compare(password, user.password);
 		if (!isPasswordValid) {
-			throw new UnauthorizedException('Invalid credentials');
+			throw new UnauthorizedException({ header: 'Invalid credentials'});
 		}
 
 		const { token, expiresIn } = await this.newRefreshToken(user.id);
@@ -44,7 +44,8 @@ export class AuthService {
 
 		return {
 			userId: user.id,
-			accessToken: this.jwt.sign({ userId: user.id })
+			accessToken: this.jwt.sign({ userId: user.id }),
+			expiresAt: new Date(new Date().setMinutes(new Date().getMinutes() + 30))
 		};
 	}
 
@@ -53,7 +54,9 @@ export class AuthService {
 
 		return {
 			accessToken: this.jwt.sign({ userId }),
-			userId
+			userId,
+			expiresAt: new Date(new Date().setMinutes(new Date().getMinutes() + 30))
+
 		};
 	}
 

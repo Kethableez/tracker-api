@@ -6,6 +6,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryEnt } from './entities/category.entity';
+import { ApiResponse } from '../../core/models/api-response.dto';
 
 @ApiTags('Category')
 @Controller('category')
@@ -15,8 +16,7 @@ export class CategoryController {
 	@Post()
 	@UseGuards(JwtAuthGuard)
 	@ApiBearerAuth()
-	@ApiCreatedResponse({ type: CategoryEnt })
-	create(@Body() createCategoryDto: CreateCategoryDto, @UserId() userId: number): Promise<CategoryEnt> {
+	create(@Body() createCategoryDto: CreateCategoryDto, @UserId() userId: number): Promise<ApiResponse> {
 		return this.categoryService.create(createCategoryDto, userId);
 	}
 

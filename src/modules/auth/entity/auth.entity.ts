@@ -6,4 +6,7 @@ export class AuthEnt {
 
 	@ApiProperty()
 	userId: number;
+
+	@ApiProperty()
+	expiresAt: Date;
 }

@@ -14,18 +14,15 @@ export class RefreshTokenGuard implements CanActivate {
 		const oldToken = req.headers['authorization'];
 		const { refreshToken } = req.cookies;
 
-		console.log(oldToken, refreshToken);
 		if (!refreshToken || !oldToken) {
 			throw new UnauthorizedException('No refresh token were found');
 		}
 
 		const { userId } = this.jwtService.decode(oldToken.replace('Bearer ', '')) as { [key: string]: any };
 
-		console.log(userId, refreshToken);
 
 		const rt = await this.prismaService.refreshToken.findUnique({ where: { userId: userId, token: refreshToken } });
 
-		console.log(rt);
 		if (!rt) {
 			throw new UnauthorizedException('No refresh token were found');
 		}
